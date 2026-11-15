@@ -8,10 +8,27 @@
 python server.py
 ```
 
-Открыть в браузере: **http://localhost:8000/app.html**
+Открыть в браузере: **http://localhost:8000/**
 
-Сервер слушает `0.0.0.0:8000`, статику отдаёт из своей папки, база — `tracker.db`
-рядом со скриптом (создаётся автоматически при первом запуске).
+Сервер слушает `0.0.0.0:8000`, статику отдаёт из `web/dist` (если папка есть,
+иначе — из корня проекта), база — `tracker.db` рядом со скриптом (создаётся
+автоматически при первом запуске).
+
+## Фронтенд
+
+Интерфейс — React + TypeScript, сборка Vite. Исходники: `web/src`, точка входа —
+`web/index.html`.
+
+```bash
+cd web
+bun install       # зависимости (bun — он же пакетный менеджер и рантайм)
+bun run dev       # dev-сервер Vite, /api проксируется на http://127.0.0.1:8000
+bun run build     # сборка в web/dist — её и отдаёт python server.py
+```
+
+Для разработки нужны два процесса: `python server.py` (API на :8000) и `bun run dev`
+(страница на порту Vite). Для продакшена достаточно `python server.py`: статика
+берётся из `web/dist`.
 
 ## Интерфейс
 
@@ -52,7 +69,8 @@ done INTEGER, moved INTEGER DEFAULT 0, archived INTEGER DEFAULT 0, created_at IN
 ## Файлы
 
 - `server.py` — сервер и API.
-- `app.html` — интерфейс (fetch к API).
+- `web/` — фронтенд на React + TypeScript: исходники `web/src`, сборка `web/dist`.
+- `app.html` — прежний интерфейс на vanilla JS (оставлен как есть).
 - `manifest.json` — манифест PWA (имя `BartolomewTT`, `standalone`, иконки 192/512).
 - `sw.js` — service worker: оболочка и манифест из кэша, `/api/*` всегда из сети.
 - `icons/icon-192.png`, `icons/icon-512.png` — иконки приложения.
@@ -61,14 +79,15 @@ done INTEGER, moved INTEGER DEFAULT 0, archived INTEGER DEFAULT 0, created_at IN
 
 ## Телефон и установка на iPhone
 
-Вёрстка: одна колонка, отступы 12 px, кнопки и чекбоксы не ниже 44 px,
-поля ввода 16 px (iOS не зумит), снизу отступ под `env(safe-area-inset-bottom)`.
+Вёрстка (`web/src/app/styles/global.css`): одна колонка, отступы 12 px, кнопки и
+чекбоксы не ниже 44 px, поля ввода 16 px (iOS не зумит), снизу отступ под
+`env(safe-area-inset-bottom)`.
 Вид «Неделя» на телефоне — вертикальный список карточек дней, на экране шире 1000 px —
 три колонки.
 
 Установка на iPhone:
 
-1. Открыть `http://<адрес-машины>:8000/app.html` в Safari.
+1. Открыть `http://<адрес-машины>:8000/` в Safari.
 2. «Поделиться» → «На экран Домой».
 3. Запускать с иконки — откроется без адресной строки (`display: standalone`).
 

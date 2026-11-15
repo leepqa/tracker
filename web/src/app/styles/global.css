@@ -1,0 +1,144 @@
+:root{
+  --bg:#f5f6fb; --card:#fff; --text:#1b1f2a; --muted:#6b7280; --line:#e6e8f0;
+  --accent:#4f6ef7; --accent-text:#fff;
+  --high:#ef4444; --medium:#f59e0b; --low:#10b981;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#101219;--card:#191c25;--text:#e9ebf3;--muted:#98a0b3;--line:#2a2f3d;--accent:#7c93ff;}
+}
+*{box-sizing:border-box}
+body{
+  margin:0;padding:16px 12px calc(16px + env(safe-area-inset-bottom)) 12px;background:var(--bg);color:var(--text);
+  font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+.app{width:100%;max-width:640px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:21px;margin:0;letter-spacing:-.01em}
+.day-nav{display:flex;align-items:center;gap:6px}
+.day-nav input[type=date]{
+  padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--text);font:inherit
+}
+button{
+  font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--text);
+  border-radius:9px;padding:8px 12px;transition:border-color .15s,background .15s
+}
+button:hover{border-color:var(--accent)}
+.icon{width:36px;padding:8px 0;text-align:center}
+form{
+  display:grid;grid-template-columns:1fr auto auto;gap:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:18px
+}
+form input[type=text]{
+  grid-column:1/-1;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+  background:transparent;color:var(--text);font:inherit;min-width:0
+}
+form input[type=text]:focus,form select:focus,.day-nav input:focus{outline:2px solid var(--accent);outline-offset:1px}
+form select,form input[type=date]{
+  padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text);font:inherit
+}
+form button[type=submit]{background:var(--accent);color:var(--accent-text);border-color:transparent;font-weight:600}
+form button[type=submit]:hover{filter:brightness(1.07)}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.task{
+  display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--line);border-radius:11px;padding:11px 12px
+}
+.task.prio-high{border-left-color:var(--high)}
+.task.prio-medium{border-left-color:var(--medium)}
+.task.prio-low{border-left-color:var(--low)}
+.task.done{opacity:.55}
+.task.done .task__text{text-decoration:line-through}
+.task__check{width:17px;height:17px;accent-color:var(--accent);cursor:pointer;flex:0 0 auto}
+.task__text{flex:1;min-width:0;overflow-wrap:anywhere}
+.task__prio{font-size:12px;color:var(--muted);white-space:nowrap}
+.task__moved{font-size:12px;color:var(--muted);white-space:nowrap}
+.task__date{font-size:12px;color:var(--muted);white-space:nowrap}
+.task__restore{font-size:12px;padding:4px 8px}
+.modes{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.modes button{border:0;border-radius:0;padding:8px 12px}
+.modes button+button{border-left:1px solid var(--line)}
+.modes button.active{background:var(--accent);color:var(--accent-text);font-weight:600}
+.modes button:disabled{opacity:.55;cursor:default}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+.tools input[type=search]{
+  flex:1 1 190px;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);color:var(--text);font:inherit
+}
+.tools input[type=search]:focus{outline:2px solid var(--accent);outline-offset:1px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{padding:8px 10px;font-size:13px}
+.filters button.active{background:var(--accent);color:var(--accent-text);border-color:transparent}
+.week{display:flex;flex-direction:column;gap:16px}
+.week-day__title{font-weight:600}
+.week-day__stats{color:var(--muted);font-size:12px}
+.week-day__move{font-size:12px;padding:4px 8px;margin-left:auto}
+.week-day .empty{padding:10px 0;text-align:left}
+.task__del{
+  border:0;background:transparent;color:var(--muted);padding:2px 6px;border-radius:7px;line-height:1
+}
+.task__del:hover{color:var(--high);background:transparent}
+.empty{color:var(--muted);text-align:center;padding:26px 0;margin:0}
+footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;color:var(--muted);font-size:13px}
+footer button{font-size:13px;padding:6px 10px}
+.error{color:var(--high);font-size:13px;margin:10px 0 0;overflow-wrap:anywhere}
+.modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal__backdrop{position:absolute;inset:0;background:rgba(10,12,20,.45)}
+.modal__card{
+  position:relative;width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:18px;box-shadow:0 18px 40px rgba(10,12,20,.22)
+}
+.modal__title{margin:0 0 6px;font-size:17px}
+.modal__text{margin:0 0 16px;color:var(--muted);overflow-wrap:anywhere}
+.modal__actions{display:flex;justify-content:flex-end;gap:8px}
+.modal__confirm{background:var(--high);border-color:transparent;color:#fff;font-weight:600}
+.modal__confirm:hover{filter:brightness(1.07);border-color:transparent}
+
+/* ---------- карточки дней недели ---------- */
+.week-day{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;display:flex;flex-direction:column;gap:10px;min-width:0
+}
+.week-day__head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+.week-day ul{gap:2px}
+.week-day .task{background:transparent;border:0;border-left:2px solid var(--line);border-radius:0;padding:5px 0 5px 8px}
+.week-day .task.prio-high{border-left-color:var(--high)}
+.week-day .task.prio-medium{border-left-color:var(--medium)}
+.week-day .task.prio-low{border-left-color:var(--low)}
+.week-day .task__del{min-height:32px;min-width:32px}
+.task__check-wrap{display:flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:26px;min-height:26px}
+
+@media (max-width: 600px){
+  body{padding:12px 12px calc(12px + env(safe-area-inset-bottom)) 12px;font-size:16px}
+  header{flex-direction:column;align-items:stretch;gap:10px}
+  h1{font-size:19px;text-align:center}
+  .day-nav{display:flex;flex-wrap:wrap;gap:8px}
+  .modes{order:-1;flex:1 1 100%;display:flex}
+  .modes button{flex:1;min-height:44px;padding:10px 8px}
+  .day-nav input[type=date]{flex:1 1 110px;min-width:0;font-size:16px;min-height:44px;padding:10px}
+  #today,#archive-toggle{flex:1 1 45%}
+  button{min-height:44px;padding:10px 12px;font-size:15px}
+  .icon{min-width:44px;min-height:44px}
+  form{grid-template-columns:1fr auto;padding:12px;gap:10px}
+  form input[type=text]{font-size:16px;min-height:48px;padding:12px}
+  form select,form input[type=date]{font-size:16px;min-height:44px;padding:10px}
+  .tools{gap:10px}
+  .tools input[type=search]{flex:1 1 100%;font-size:16px;min-height:44px;padding:10px 12px}
+  .filters{flex:1 1 100%}
+  .filters button{flex:1;min-height:44px;font-size:14px;padding:8px 6px}
+  .task{padding:10px 12px;min-height:52px;gap:8px}
+  .task__text{font-size:16px}
+  .task__check{width:26px;height:26px}
+  .task__check-wrap{min-width:44px;min-height:44px;margin:-8px 0}
+  .task__del{min-height:44px;min-width:44px;font-size:16px}
+  .week-day__move{min-height:40px;margin-left:0}
+  footer{flex-direction:column;align-items:stretch;gap:10px}
+  footer button{min-height:44px}
+  .modal__card{padding:16px}
+  .modal__actions button{min-height:44px;flex:1}
+}
+
+@media (min-width: 1000px){
+  .app{max-width:1080px}
+  .week{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:14px}
+}

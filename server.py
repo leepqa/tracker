@@ -2,7 +2,7 @@
 """Трекер задач: статика + JSON API на стандартной библиотеке Python.
 
 Запуск:  python server.py
-Открыть: http://localhost:8000/app.html
+Открыть: http://localhost:8000/
 База:    tracker.db рядом со скриптом (создаётся автоматически).
 """
 
@@ -19,6 +19,8 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "tracker.db")
+DIST_DIR = os.path.join(BASE_DIR, "web", "dist")
+STATIC_DIR = DIST_DIR if os.path.isdir(DIST_DIR) else BASE_DIR
 PORT = 8000
 PRIORITIES = ("low", "medium", "high")
 TASK_ID_RE = re.compile(r"^/api/tasks/([^/]+)$")
@@ -100,7 +102,7 @@ class TrackerHandler(SimpleHTTPRequestHandler):
     })
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=BASE_DIR, **kwargs)
+        super().__init__(*args, directory=STATIC_DIR, **kwargs)
 
     def guess_type(self, path):
         normalized = path.replace("\\", "/")
@@ -345,7 +347,7 @@ class TrackerHandler(SimpleHTTPRequestHandler):
 def main():
     init_db()
     server = ThreadingHTTPServer(("0.0.0.0", PORT), TrackerHandler)
-    print("Трекер задач: http://localhost:%d/app.html" % PORT)
+    print("Трекер задач: http://localhost:%d/" % PORT)
     print("База: %s" % DB_PATH)
     try:
         server.serve_forever()
