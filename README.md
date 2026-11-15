@@ -70,11 +70,9 @@ done INTEGER, moved INTEGER DEFAULT 0, archived INTEGER DEFAULT 0, created_at IN
 
 - `server.py` — сервер и API.
 - `web/` — фронтенд на React + TypeScript: исходники `web/src`, сборка `web/dist`.
-- `app.html` — прежний интерфейс на vanilla JS (оставлен как есть).
-- `manifest.json` — манифест PWA (имя `BartolomewTT`, `standalone`, иконки 192/512).
-- `sw.js` — service worker: оболочка и манифест из кэша, `/api/*` всегда из сети.
-- `icons/icon-192.png`, `icons/icon-512.png` — иконки приложения.
-- `index.html` — прежняя версия на localStorage (оставлена как есть).
+- `web/public/manifest.json` — манифест PWA (имя `BartolomewTT`, `standalone`, иконки 192/512).
+- `web/public/sw.js` — service worker: оболочка и манифест из кэша, `/api/*` всегда из сети.
+- `web/public/icons/icon-192.png`, `web/public/icons/icon-512.png` — иконки приложения.
 - `tracker.db` — база (появляется после запуска).
 
 ## Телефон и установка на iPhone
